@@ -107,6 +107,7 @@ public class SportMonks extends DataSourceHelper{
                 seasonDoc.append("_id",seasonDoc.getInteger("id"));
                 seasonArrayDocs.add(seasonDoc);
             }
+            //this is a new line
             seasons.insertMany(seasonArrayDocs,Boolean.FALSE);
         } catch (Exception e){
             e.printStackTrace();

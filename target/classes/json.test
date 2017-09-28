@@ -1,0 +1,38 @@
+db.collectionName.aggregate([
+{ $match: {
+name: { "$ne": '' }  // discard selection criteria
+}},
+{ $group: {
+_id: { name: "$name"}, // can be grouped on multiple properties
+dups: { "$addToSet": "$_id" },
+count: { "$sum": 1 }
+}},
+{ $match: {
+count: { "$gt": 1 }    // Duplicates considered as count greater than one
+}}
+],
+{allowDiskUse: true}       // For faster processing if set is larger
+)
+
+
+
+db.orders.aggregate( [
+{
+$group: {
+_id: {
+cust_id: "$cust_id",
+ord_date: {
+month: { $month: "$ord_date" },
+day: { $dayOfMonth: "$ord_date" },
+year: { $year: "$ord_date"}
+}
+}
+}
+},
+{
+$group: {
+_id: null,
+count: { $sum: 1 }
+}
+}
+] )
